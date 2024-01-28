@@ -1,5 +1,12 @@
-import Home from './home/page'
+'use client'
+
+import { useRouter } from 'next/navigation'
+import { useLayoutEffect } from 'react'
 
 export default function Index() {
-  return <Home />
+  const { push } = useRouter()
+
+  useLayoutEffect(() => {
+    push('/song')
+  }, [])
 }
