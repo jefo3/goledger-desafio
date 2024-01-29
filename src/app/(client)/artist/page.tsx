@@ -1,3 +1,3 @@
 export default function Artist() {
-  return <h1>Page Artist</h1>
+  return <h1 className="title-page"> Artistas </h1>
 }
