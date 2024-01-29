@@ -16,7 +16,7 @@ const navItem = tv({
   base: 'flex gap-5 w-full p-4 mt-2 bg-slate-100 hover:bg-slate-200 rounded-md font-medium cursor-pointer outline-none',
   variants: {
     isActive: {
-      true: 'bg-primary font-bold text-white hover:bg-primary',
+      true: 'bg-primary-base font-bold text-white hover:bg-primary-base',
     },
   },
 })
