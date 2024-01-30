@@ -56,7 +56,7 @@ export interface ICommumList {
   query: {
     selector: {
       '@assetType': TAssetType
-      '@Key'?: Pick<IPropsForReference, '@key'>
+      '@key'?: string
     }
     limit?: number
     skip?: number
