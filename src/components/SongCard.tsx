@@ -4,6 +4,8 @@ import { dateFormatted, formateArtists } from '@/utils'
 
 import { ISongPropsResponse } from '@/constants/payload/base'
 
+import { ExplicitIcon } from './icons/ExplicitIcon'
+
 interface IProps {
   song: ISongPropsResponse
 }
@@ -23,9 +25,13 @@ export const SongCard = ({ song }: IProps) => {
 
       <section className="flex flex-col justify-between p-4">
         <header className="space-y-1">
-          <div className="text-3xl font-medium text-primary-base">{song.title}</div>
+          <div className="inline-flex items-center w-full gap-2 text-3xl font-medium text-primary-base">
+            <span>{song.title}</span>
+            {song.explicit && <ExplicitIcon />}
+          </div>
+
           <div>
-            by{' '}
+            por{' '}
             <span className="text-zinc-700 font-medium">
               {formateArtists({ artists: song.artists, separetor: '|' })}
             </span>
