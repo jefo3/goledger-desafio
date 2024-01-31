@@ -1,9 +1,10 @@
-import { Clock5, PlayCircle, Star } from 'lucide-react'
+import { PlayCircle } from 'lucide-react'
 
-import { dateFormatted, formateArtists } from '@/utils'
+import { formateArtists } from '@/utils'
 
 import { ISongPropsResponse } from '@/constants/payload/base'
 
+import { SpecificityAlbum } from './Album/SpecificityAlbum'
 import { ExplicitIcon } from './icons/ExplicitIcon'
 
 interface IProps {
@@ -38,17 +39,7 @@ export const SongCard = ({ song }: IProps) => {
           </div>
         </header>
 
-        <div className="invisible flex gap-5 opacity-0 transition-all text-gray-500 group-hover:visible group-hover:opacity-100">
-          <span className="flex items-center gap-1">
-            <Star size={20} />
-            <span>{song.album.rating}</span>
-          </span>
-
-          <span className="flex items-center gap-2">
-            <Clock5 size={20} />
-            <span>{dateFormatted(song.album.releaseDate)}</span>
-          </span>
-        </div>
+        <SpecificityAlbum album={song.album} />
       </section>
     </article>
   )

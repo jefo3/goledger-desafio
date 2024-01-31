@@ -16,10 +16,10 @@ export default function Song() {
 
   const handleAllSongs = async () => {
     try {
-      const response = await songService.listSongs()
-      const data: IProps = response.data
+      const { data } = await songService.listSongs()
+      const { result }: IProps = data
 
-      setSongs(data.result)
+      setSongs(result)
     } catch (err) {
       console.log('err', err)
     }

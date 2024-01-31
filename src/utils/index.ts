@@ -6,7 +6,7 @@ import { IArtistPropsResponse } from '@/constants/payload/base'
 export const dateFormatted = (date: string): string => {
   if (!date) return ''
 
-  const dateFormatted = format(date, "dd 'de' MMMM 'de' yyyy", { locale: ptBR })
+  const dateFormatted = format(date, "MMMM 'de' yyyy", { locale: ptBR })
 
   return dateFormatted
 }
