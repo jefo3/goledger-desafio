@@ -3,7 +3,9 @@
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
+import { ArtistCard } from '@/components/ArtistCard'
 import { artistService } from '@/services/artist'
+import { CircleUserRound } from 'lucide-react'
 
 import { IArtistPropsResponse } from '@/constants/payload/base'
 
@@ -31,13 +33,9 @@ export default function Artist() {
   return (
     <React.Fragment>
       <h1 className="title-page"> Artistas </h1>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap gap-6">
         {artists.map((artist) => {
-          return (
-            <Link href={`artist/${artist['@key']}`} key={artist['@key']}>
-              <span>{artist.name}</span>
-            </Link>
-          )
+          return <ArtistCard artist={artist} key={artist['@key']} />
         })}
       </div>
     </React.Fragment>

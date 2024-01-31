@@ -8,7 +8,7 @@ interface IProps {
   song: ISongPropsResponse
 }
 
-export const SongItem = ({ song }: IProps) => {
+export const SongCard = ({ song }: IProps) => {
   return (
     <article
       key={song['@key']}

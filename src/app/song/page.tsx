@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 
-import { SongItem } from '@/components/SongItem'
+import { SongCard } from '@/components/SongCard'
 import { songService } from '@/services/song'
 
 import { ISongPropsResponse } from '@/constants/payload/base'
@@ -34,7 +34,7 @@ export default function Song() {
       <h1 className="title-page"> Músicas </h1>
       <div className="grid grid-cols-3 gap-4">
         {songs.map((song) => (
-          <SongItem song={song} key={song['@key']} />
+          <SongCard song={song} key={song['@key']} />
         ))}
       </div>
     </React.Fragment>
