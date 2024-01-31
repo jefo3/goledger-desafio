@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 
 import { AudioLines, User, Disc3, ListMusic } from 'lucide-react'
 
@@ -23,10 +22,6 @@ export const Sidebar = () => {
         <NavItem icon={Disc3} label="Album" path="/album" />
         <NavItem icon={ListMusic} label="Playlist" path="/playlist" />
       </nav>
-
-      <Link href="/administrator/song" className="mt-auto">
-        <span>Ir para a visão do administrador</span>
-      </Link>
     </aside>
   )
 }
