@@ -32,7 +32,7 @@ export default function Album() {
     <React.Fragment>
       <h1 className="title-page"> Albuns </h1>
 
-      <div className="flex gap-6">
+      <div className="grid grid-cols-4 w-full gap-6">
         {albuns.map((album) => {
           return <AlbumCard key={album['@key']} album={album} />
         })}
