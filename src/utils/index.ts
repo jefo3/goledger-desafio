@@ -21,3 +21,12 @@ export const formateArtists = ({ artists, separetor = ',' }: IPropsFormatArtists
   const artistFormatted = artistsName.join(` ${separetor} `)
   return artistFormatted
 }
+
+export type TColors = 'red' | 'blue' | 'green' | 'indigo' | 'purple' | 'teal'
+
+export const getRandomColor = (): TColors => {
+  const availableColors: TColors[] = ['red', 'blue', 'green', 'indigo', 'purple', 'teal']
+  const randomColor = availableColors[Math.floor(Math.random() * availableColors.length)]
+
+  return randomColor
+}
