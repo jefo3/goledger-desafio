@@ -5,13 +5,6 @@ export interface IPropsForReference {
   '@key': string
 }
 
-interface IDefaultPropsResponse {
-  '@assetType': TAssetType
-  '@key': string
-  '@lastTouchBy': string
-  '@lastTx': string
-}
-
 export interface ISongPropsRequest {
   album: IPropsForReference
   artists: IPropsForReference[]
@@ -19,26 +12,26 @@ export interface ISongPropsRequest {
   title: string
 }
 
-export interface ISongPropsResponse extends IDefaultPropsResponse {
+export interface ISongPropsResponse extends IPropsForReference {
   album: IAlbumPropsResponse
   artists: IArtistPropsResponse[]
   explicit: boolean
   title: string
 }
 
-export interface IAlbumPropsResponse extends IDefaultPropsResponse {
+export interface IAlbumPropsResponse extends IPropsForReference {
   artist: IArtistPropsResponse
   rating: number
   releaseDate: string
   title: string
 }
 
-export interface IArtistPropsResponse extends IDefaultPropsResponse {
+export interface IArtistPropsResponse extends IPropsForReference {
   about: boolean
   name: string
 }
 
-export interface IPlaylistPropsResponse extends IDefaultPropsResponse {
+export interface IPlaylistPropsResponse extends IPropsForReference {
   description: string
   name: string
   songs: ISongPropsResponse[]
