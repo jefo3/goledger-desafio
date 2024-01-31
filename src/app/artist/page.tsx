@@ -1,11 +1,9 @@
 'use client'
 
-import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 import { ArtistCard } from '@/components/ArtistCard'
 import { artistService } from '@/services/artist'
-import { CircleUserRound } from 'lucide-react'
 
 import { IArtistPropsResponse } from '@/constants/payload/base'
 
