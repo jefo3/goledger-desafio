@@ -56,3 +56,10 @@ export interface ICommumList {
   }
   resolve?: boolean
 }
+
+export interface ICommumDelete {
+  key: {
+    '@assetType': TAssetType
+    '@key': string
+  }
+}

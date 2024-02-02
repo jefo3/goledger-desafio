@@ -1,6 +1,7 @@
-import { pathCreate, pathSearch } from '@/constants/paths'
+import { pathCreate, pathDelete, pathSearch } from '@/constants/paths'
 import { ISongPropsRequest } from '@/constants/payload/base'
 import { ICreateSong } from '@/constants/payload/create'
+import { IDeleteSong } from '@/constants/payload/delete'
 import { IListSong } from '@/constants/payload/list'
 
 import { api } from './api'
@@ -41,9 +42,19 @@ const service = () => {
     }
   }
 
+  const deleteSong = async ({ id }: { id: string }) => {
+    try {
+      const payload: IDeleteSong = { key: { '@assetType': 'song', '@key': id } }
+      return await api.post(pathDelete, payload)
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }
+
   return {
     createSong,
     listSongs,
+    deleteSong,
   }
 }
 
