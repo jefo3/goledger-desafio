@@ -25,7 +25,7 @@ const InputComponent: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   const hasError = error !== undefined
   return (
     <label>
-      {label && <div className="font-medium mb-2">{label}</div>}
+      {label && <div className="font-medium mb-2 text-lg">{label}</div>}
       <div className={containerInput({ hasError })}>
         {Icon && <Icon className={`${hasError && 'text-error'}`} />}
         <input ref={ref} className="flex-1 bg-transparent border-0 outline-none" {...props} />
