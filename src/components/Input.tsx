@@ -10,7 +10,7 @@ interface InputProps extends ComponentProps<'input'> {
 }
 
 const containerInput = tv({
-  base: 'flex items-center gap-2 bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg w-full p-6 focus-within:border-primary-base',
+  base: 'flex items-center gap-2 bg-white border border-gray-300 text-gray-900 text-md rounded-lg w-full focus-within:border-primary-base',
   variants: {
     hasError: {
       true: 'focus-within:border-error border-error',
@@ -19,14 +19,14 @@ const containerInput = tv({
 })
 
 const InputComponent: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
-  { error, icon: Icon, label, ...props },
+  { error, icon: Icon, label, className, ...props },
   ref
 ) => {
   const hasError = error !== undefined
   return (
     <label>
       {label && <div className="font-medium mb-2 text-lg">{label}</div>}
-      <div className={containerInput({ hasError })}>
+      <div className={`${containerInput({ hasError })} ${className}`}>
         {Icon && <Icon className={`${hasError && 'text-error'}`} />}
         <input ref={ref} className="flex-1 bg-transparent border-0 outline-none" {...props} />
       </div>
