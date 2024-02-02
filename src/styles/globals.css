@@ -5,3 +5,7 @@
 .title-page {
   @apply text-5xl font-medium mb-8 text-secundary-base
 }
+
+.not-scroll__fullpage{
+   overflow: hidden;
+}

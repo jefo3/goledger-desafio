@@ -1,4 +1,6 @@
-import React from 'react'
+'use client'
+
+import React, { useEffect } from 'react'
 
 import { IPropsElementsDiv } from '.'
 
@@ -8,6 +10,15 @@ interface IProps extends IPropsElementsDiv {
 }
 
 export const ModalRoot = ({ children, isOpen, className, ...props }: IProps) => {
+  useEffect(() => {
+    const bodyElement = document.querySelector('body')
+    if (isOpen) {
+      bodyElement?.classList.add('not-scroll__fullpage')
+      return
+    }
+
+    bodyElement?.classList.remove('not-scroll__fullpage')
+  }, [isOpen])
   return (
     isOpen && (
       <div
