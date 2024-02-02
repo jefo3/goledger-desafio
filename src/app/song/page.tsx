@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { Button } from '@/components/Button'
 import { CreateSongFormModal } from '@/components/song/CreateSongFormModal'
@@ -18,7 +18,7 @@ export default function Song() {
   const [songs, setSongs] = useState<ISongPropsResponse[]>([])
   const [openFormModal, setOpenFormModal] = useState(false)
 
-  const handleAllSongs = async () => {
+  const handleAllSongs = useCallback(async () => {
     try {
       const { data } = await songService.listSongs({})
       const { result }: IProps = data
@@ -27,7 +27,7 @@ export default function Song() {
     } catch (err) {
       console.log('err', err)
     }
-  }
+  }, [])
 
   const openCreateMusicModal = () => {
     setOpenFormModal(true)
@@ -35,7 +35,7 @@ export default function Song() {
 
   useEffect(() => {
     handleAllSongs()
-  }, [])
+  }, [handleAllSongs])
 
   return (
     <React.Fragment>
@@ -50,7 +50,11 @@ export default function Song() {
           <SongCard song={song} key={song['@key']} />
         ))}
       </div>
-      <CreateSongFormModal closeModal={() => setOpenFormModal(false)} isOpenModal={openFormModal} />
+      <CreateSongFormModal
+        closeModal={() => setOpenFormModal(false)}
+        isOpenModal={openFormModal}
+        loadData={handleAllSongs}
+      />
     </React.Fragment>
   )
 }

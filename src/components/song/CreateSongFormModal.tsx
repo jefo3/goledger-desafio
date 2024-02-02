@@ -26,6 +26,7 @@ import { createSongFormData, createSongFormSchema } from './valitationForm'
 interface IPropsFormModal {
   closeModal: () => void
   isOpenModal: boolean
+  loadData: () => void
 }
 
 export interface IPropsAlbum {
@@ -36,7 +37,7 @@ export interface IPropsArtist {
   result: IArtistPropsResponse[]
 }
 
-export const CreateSongFormModal = ({ closeModal, isOpenModal }: IPropsFormModal) => {
+export const CreateSongFormModal = ({ closeModal, isOpenModal, loadData }: IPropsFormModal) => {
   const {
     register,
     handleSubmit,
@@ -102,6 +103,7 @@ export const CreateSongFormModal = ({ closeModal, isOpenModal }: IPropsFormModal
 
       if (data) {
         toast.done('Música criada com sucesso')
+        loadData()
         close()
       }
     } catch (err) {
