@@ -4,8 +4,8 @@ import { IListAlbum } from '@/constants/payload/list'
 import { api } from './api'
 
 const service = () => {
-  const listAlbuns = async () => {
-    const payload: IListAlbum = { query: { selector: { '@assetType': 'album' } }, resolve: true }
+  const listAlbuns = async ({ resolve = true }: { resolve?: boolean }) => {
+    const payload: IListAlbum = { query: { selector: { '@assetType': 'album' } }, resolve }
     try {
       return await api.post(pathSearch, payload)
     } catch (err) {
@@ -13,7 +13,7 @@ const service = () => {
     }
   }
 
-  const detailAlbum = async (id: string) => {
+  const detailAlbum = async ({ id }: { id: string }) => {
     try {
       const payload: IListAlbum = {
         query: { selector: { '@assetType': 'album', '@key': id } },

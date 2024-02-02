@@ -16,7 +16,7 @@ export default function Album() {
 
   const handleAllAlbuns = async () => {
     try {
-      const { data } = await albumService.listAlbuns()
+      const { data } = await albumService.listAlbuns({})
       const { result }: IPropsAlbum = data
       setAlbuns(result)
     } catch (err) {

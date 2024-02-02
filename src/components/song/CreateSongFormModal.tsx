@@ -54,11 +54,9 @@ export const CreateSongFormModal = ({ closeModal, isOpenModal }: IPropsFormModal
 
   const handleValuesForSelects = async () => {
     try {
-      const searchDetailed = false
-
       const [albumsRes, artistsRes] = await Promise.all([
-        albumService.listAlbuns(searchDetailed),
-        artistService.listArtists(),
+        albumService.listAlbuns({ resolve: false }),
+        artistService.listArtists({}),
       ])
 
       const { result: resultAlbums }: IPropsAlbum = albumsRes.data

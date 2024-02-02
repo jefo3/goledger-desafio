@@ -16,7 +16,7 @@ export default function Artist() {
 
   const handleAllArtist = async () => {
     try {
-      const { data } = await artistService.listArtists()
+      const { data } = await artistService.listArtists({})
       const { result }: IPropsArtist = data
       setArtists(result)
     } catch (err) {

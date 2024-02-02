@@ -19,7 +19,7 @@ export default function DetailAlbum({ params: { id } }: IPropsDetailAlbum) {
 
   const handleDetailAlbum = async (id: string) => {
     try {
-      const { data } = await albumService.detailAlbum(id)
+      const { data } = await albumService.detailAlbum({ id })
       const { result }: IPropsAlbum = data
       setAlbum(result)
     } catch (err) {

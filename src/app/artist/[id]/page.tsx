@@ -19,7 +19,7 @@ export default function DetailArtist({ params: { id } }: IPropsDetailArtist) {
 
   const handleDetailArtist = async (id: string) => {
     try {
-      const response = await artistService.detailArtist(id)
+      const response = await artistService.detailArtist({ id })
       const data: IPropsArtist = response.data
       setArtist(data.result)
     } catch (err) {

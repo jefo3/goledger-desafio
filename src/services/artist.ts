@@ -1,14 +1,20 @@
 import { pathSearch } from '@/constants/paths'
-import { IListSong } from '@/constants/payload/list'
+import { IListArtist } from '@/constants/payload/list'
 
 import { api } from './api'
 
+interface IPropsSearch {
+  limit?: number
+  skip?: number
+  resolve?: boolean
+}
+
 const service = () => {
-  const listArtists = async (limit?: number, skip?: number) => {
+  const listArtists = async ({ limit, skip, resolve = true }: IPropsSearch) => {
     try {
-      const payload: IListSong = {
+      const payload: IListArtist = {
         query: { selector: { '@assetType': 'artist' }, limit, skip },
-        resolve: true,
+        resolve,
       }
       return await api.post(pathSearch, payload)
     } catch (err) {
@@ -16,9 +22,9 @@ const service = () => {
     }
   }
 
-  const detailArtist = async (id: string) => {
+  const detailArtist = async ({ id }: { id: string }) => {
     try {
-      const payload: IListSong = {
+      const payload: IListArtist = {
         query: { selector: { '@assetType': 'artist', '@key': id } },
       }
       return await api.post(pathSearch, payload)

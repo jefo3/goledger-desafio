@@ -20,7 +20,7 @@ export default function Song() {
 
   const handleAllSongs = async () => {
     try {
-      const { data } = await songService.listSongs()
+      const { data } = await songService.listSongs({})
       const { result }: IProps = data
 
       setSongs(result)

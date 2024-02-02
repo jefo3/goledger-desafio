@@ -5,6 +5,12 @@ import { IListSong } from '@/constants/payload/list'
 
 import { api } from './api'
 
+interface IPropsSearch {
+  limit?: number
+  skip?: number
+  resolve?: boolean
+}
+
 const service = () => {
   const createSong = async (data: ISongPropsRequest) => {
     try {
@@ -23,11 +29,11 @@ const service = () => {
     }
   }
 
-  const listSongs = async (limit?: number, skip?: number) => {
+  const listSongs = async ({ limit, skip, resolve = true }: IPropsSearch) => {
     try {
       const payload: IListSong = {
         query: { selector: { '@assetType': 'song' }, limit, skip },
-        resolve: true,
+        resolve,
       }
       return await api.post(pathSearch, payload)
     } catch (err) {
