@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import colors from 'tailwindcss/colors'
 
 const config: Config = {
   content: ['./src/**/*.tsx'],
@@ -15,6 +16,7 @@ const config: Config = {
           light: '#b878d1',
           dark: '#7e419a',
         },
+        error: colors.red[400],
       },
     },
   },
