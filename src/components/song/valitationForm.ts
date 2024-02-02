@@ -1,7 +1,7 @@
 import * as z from 'zod'
 
 export const createSongFormSchema = z.object({
-  title: z.string().trim().min(6, 'precisa ser no minimo com 6 caracteres'),
+  title: z.string().trim().min(3, 'precisa ser no minimo com 3 caracteres'),
   artists: z
     .object({
       label: z.string(),
