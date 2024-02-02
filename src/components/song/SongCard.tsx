@@ -4,8 +4,8 @@ import { formateArtists } from '@/utils'
 
 import { ISongPropsResponse } from '@/constants/payload/base'
 
-import { SpecificityAlbum } from './Album/SpecificityAlbum'
-import { ExplicitIcon } from './icons/ExplicitIcon'
+import { SpecificityAlbum } from '../Album/SpecificityAlbum'
+import { ExplicitIcon } from '../icons/ExplicitIcon'
 
 interface IProps {
   song: ISongPropsResponse
