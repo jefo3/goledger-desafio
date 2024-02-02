@@ -7,7 +7,7 @@ interface ArtistState {
   handleArtists: () => Promise<void>
 }
 
-export const useArtistStore = create<ArtistState>((set, state) => ({
+export const useArtistStore = create<ArtistState>(() => ({
   artists: [],
   handleArtists: async () => {},
 }))

@@ -1,12 +1,5 @@
-'use client'
+import { redirect } from 'next/navigation'
 
-import { useRouter } from 'next/navigation'
-import { useLayoutEffect } from 'react'
-
-export default function Index() {
-  const { push } = useRouter()
-
-  useLayoutEffect(() => {
-    push('/song')
-  }, [])
+export default async function Index() {
+  return redirect('/song')
 }
