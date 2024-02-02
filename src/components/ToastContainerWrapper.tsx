@@ -1,0 +1,9 @@
+'use client'
+
+import { ToastContainer, toast } from 'react-toastify'
+
+import 'react-toastify/dist/ReactToastify.css'
+
+export const ToastContainerWrapper = () => {
+  return <ToastContainer position={toast.POSITION.TOP_RIGHT} theme="light" draggable />
+}

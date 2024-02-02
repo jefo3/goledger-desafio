@@ -1,49 +1,39 @@
-import React from 'react'
-import { Controller, FieldValues, useForm } from 'react-hook-form'
-import Select from 'react-select'
+'use client'
 
+import React, { useEffect, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import Select from 'react-select'
+import { toast } from 'react-toastify'
+
+import { albumService } from '@/services/album'
+import { artistService } from '@/services/artist'
+import { songService } from '@/services/song'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Music4Icon, Save } from 'lucide-react'
-import * as z from 'zod'
+
+import {
+  IAlbumPropsResponse,
+  IArtistPropsResponse,
+  IPropsForReference,
+} from '@/constants/payload/base'
+import { colourStyles } from '@/constants/styles'
 
 import { Button } from '../Button'
 import { Input } from '../Input'
 import { Modal } from '../Modal'
-
-const createSongFormSchema = z.object({
-  title: z.string().trim().min(6, 'precisa ser no minimo com 6 caracteres'),
-  artists: z
-    .object({
-      label: z.string(),
-      value: z.string(),
-    })
-    .array()
-    .min(1, 'Selecione pelo menos 1 artista')
-    .default([]),
-  album: z
-    .object({
-      label: z.string(),
-      value: z.string(),
-    })
-    .refine((album) => album.value, { message: 'Selecione um album' })
-    .default({
-      label: '',
-      value: '',
-    }),
-  explicit: z
-    .string()
-    .nullable()
-    .refine((explicit) => explicit === 'true' || explicit === 'false', {
-      message: 'Selecione um valor',
-    })
-    .transform((explicit) => explicit === 'true'),
-})
-
-type createSongFormData = z.infer<typeof createSongFormSchema>
+import { createSongFormData, createSongFormSchema } from './valitationForm'
 
 interface IPropsFormModal {
   closeModal: () => void
   isOpenModal: boolean
+}
+
+export interface IPropsAlbum {
+  result: IAlbumPropsResponse[]
+}
+
+export interface IPropsArtist {
+  result: IArtistPropsResponse[]
 }
 
 export const CreateSongFormModal = ({ closeModal, isOpenModal }: IPropsFormModal) => {
@@ -51,33 +41,94 @@ export const CreateSongFormModal = ({ closeModal, isOpenModal }: IPropsFormModal
     register,
     handleSubmit,
     formState: { errors },
+    reset,
+    clearErrors,
     control,
   } = useForm<createSongFormData>({
     resolver: zodResolver(createSongFormSchema),
   })
 
-  const createSong = (data: FieldValues) => {
-    console.log(data)
+  const [albuns, setAlbuns] = useState<IAlbumPropsResponse[]>([])
+  const [artists, setArtists] = useState<IArtistPropsResponse[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleValuesForSelects = async () => {
+    try {
+      const searchDetailed = false
+
+      const [albumsRes, artistsRes] = await Promise.all([
+        albumService.listAlbuns(searchDetailed),
+        artistService.listArtists(),
+      ])
+
+      const { result: resultAlbums }: IPropsAlbum = albumsRes.data
+      const { result: resultArtists }: IPropsArtist = artistsRes.data
+
+      if (resultAlbums) {
+        setAlbuns(resultAlbums)
+      }
+
+      if (resultArtists) {
+        setArtists(resultArtists)
+      }
+    } catch (err) {
+      console.error(err)
+    }
   }
 
-  const colourStyles = {
-    control: ({ ...props }) => ({
-      ...props,
-      with: '100%',
-      borderColor: 'rgb(209 213 219)',
-      borderWidth: '1px',
-      borderRadius: '0.3rem',
-      padding: '0.5rem',
-      outline: 'none',
-      boxShadow: 'none',
-    }),
+  const createSong = async (data: createSongFormData) => {
+    const { album, artists, explicit, title } = data
+
+    const albumFormatted: IPropsForReference = {
+      '@assetType': 'album',
+      '@key': album.value,
+    }
+
+    const listArtists = artists.map((artist) => {
+      const artistsFormatted: IPropsForReference = {
+        '@assetType': 'artist',
+        '@key': artist.value,
+      }
+
+      return artistsFormatted
+    })
+
+    try {
+      setIsLoading(true)
+      const { data } = await songService.createSong({
+        title,
+        album: albumFormatted,
+        artists: listArtists,
+        explicit: explicit === 'true',
+      })
+
+      if (data) {
+        toast.done('Música criada com sucesso')
+        close()
+      }
+    } catch (err) {
+      setIsLoading(false)
+      console.log('error -->', err)
+    }
   }
+
+  const close = () => {
+    setIsLoading(false)
+    closeModal()
+    clearErrors()
+    reset()
+  }
+
+  useEffect(() => {
+    if (!isOpenModal || (albuns.length > 0 && artists.length > 0)) return
+    handleValuesForSelects()
+  }, [isOpenModal])
 
   return (
     <Modal.Root isOpen={isOpenModal} className="justify-end items-start">
       <Modal.Overlay />
       <Modal.Content className="bg-white shadow md:w-2/3 w-full h-full">
-        <Modal.Header close={closeModal}>
+        <Modal.Header close={close}>
           <Modal.Title className="text-4xl font-semibold title-page" title="Adicionar música" />
         </Modal.Header>
         <Modal.Body>
@@ -100,13 +151,9 @@ export const CreateSongFormModal = ({ closeModal, isOpenModal }: IPropsFormModal
                   render={({ field }) => (
                     <React.Fragment>
                       <Select
-                        options={[
-                          { label: '1', value: '22' },
-                          { label: '2', value: '222' },
-                          { label: '3', value: '322' },
-                          { label: '4', value: '422' },
-                          { label: '5', value: '522' },
-                        ]}
+                        options={artists.map((artist) => {
+                          return { label: artist.name, value: artist['@key'] }
+                        })}
                         placeholder="escolha um artista"
                         className={`${errors.artists && 'border-2 rounded-lg border-error outline-none'}`}
                         styles={colourStyles}
@@ -129,13 +176,9 @@ export const CreateSongFormModal = ({ closeModal, isOpenModal }: IPropsFormModal
                   render={({ field }) => (
                     <React.Fragment>
                       <Select
-                        options={[
-                          { label: 'album 1', value: '22' },
-                          { label: 'album2', value: '222' },
-                          { label: 'album 3', value: '322' },
-                          { label: 'album 4', value: '422' },
-                          { label: 'album 5', value: '522' },
-                        ]}
+                        options={albuns.map((album) => {
+                          return { label: album.title, value: album['@key'] }
+                        })}
                         placeholder="escolha um album"
                         className={errors.album && 'border-2 rounded-lg border-error outline-none'}
                         styles={colourStyles}
@@ -170,11 +213,11 @@ export const CreateSongFormModal = ({ closeModal, isOpenModal }: IPropsFormModal
             </div>
 
             <div className="justify-end flex flex-row gap-4">
-              <Button variant="outline" type="button" onClick={closeModal}>
+              <Button variant="outline" type="button" onClick={close}>
                 Cancelar
               </Button>
 
-              <Button type="submit" isLoading={false} icon={Save}>
+              <Button type="submit" isLoading={isLoading} icon={Save}>
                 Salvar
               </Button>
             </div>
